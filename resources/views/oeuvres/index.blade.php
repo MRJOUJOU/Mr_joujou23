@@ -17,12 +17,18 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($oeuvres as $oeuvre)
+            @forelse($oeuvres as $oeuvre)
             <tr>
-                <td><img src="{{ asset('storage/'.$oeuvre->image) }}" width="70" alt="Image"></td>
+                <td>
+                    @if($oeuvre->image)
+                        <img src="{{ asset('storage/'.$oeuvre->image) }}" width="70" alt="{{ $oeuvre->titre }}">
+                    @else
+                        <span>Pas d'image</span>
+                    @endif
+                </td>
                 <td>{{ $oeuvre->titre }}</td>
                 <td>{{ $oeuvre->artiste }}</td>
-                <td>{{ $oeuvre->annee }}</td>
+                <td>{{ $oeuvre->annee_fabrication }}</td>
                 <td>{{ $oeuvre->categorie->nom }}</td>
                 <td>
                     <a href="{{ route('oeuvres.show', $oeuvre) }}" class="btn btn-info btn-sm">Voir</a>
@@ -30,11 +36,15 @@
                     <form action="{{ route('oeuvres.destroy', $oeuvre) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer cette œuvre ?')">Supprimer</button>
                     </form>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="6" class="text-center">Aucune œuvre trouvée.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
