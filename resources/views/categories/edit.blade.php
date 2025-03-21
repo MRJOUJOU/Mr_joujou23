@@ -4,7 +4,7 @@
     <div class="container">
         <h1 class="text-center">Modifier la Catégorie</h1>
 
-        <form action="{{ route('categories.update', $categorie) }}" method="POST">
+        <form action="{{ route('categories.update', ['category' => $categorie->id]) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">
